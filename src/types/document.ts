@@ -1,0 +1,2 @@
+export type SheetRecord={id:string;page:number;label:string;title:string;discipline:string;revision:string};
+export type DocumentRecord={name:string;path:string;size:number;pageCount:number;sheets:SheetRecord[]};
