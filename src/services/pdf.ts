@@ -1,0 +1,3 @@
+import {invoke} from "@tauri-apps/api/core";import {open} from "@tauri-apps/plugin-dialog";import {readFile} from "@tauri-apps/plugin-fs";
+export type PdfMetadata={name:string;path:string;page_count:number;file_size:number};
+export async function choosePdf(){const selected=await open({multiple:false,directory:false,filters:[{name:"PDF documents",extensions:["pdf"]}]});if(!selected)return null;const path=selected as string;const [metadata,data]=await Promise.all([invoke<PdfMetadata>("inspect_pdf",{path}),readFile(path)]);return{metadata,data};}
