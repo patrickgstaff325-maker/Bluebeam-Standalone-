@@ -1,0 +1,2 @@
+import type {SheetRecord} from "../types/document";
+export default function SheetPanel({sheets,page,onPage}:{sheets:SheetRecord[];page:number;onPage:(n:number)=>void}){return <div className="sheet-list">{sheets.map(s=><button key={s.id} className={s.page===page?"sheet active":"sheet"} onClick={()=>onPage(s.page)}><div className="thumb">{s.page}</div><span><b>{s.label}</b><small>{s.title}</small></span></button>)}</div>}
