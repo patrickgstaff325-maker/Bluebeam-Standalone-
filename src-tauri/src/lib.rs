@@ -1,5 +1,5 @@
 use serde::Serialize;
 #[derive(Serialize)] struct PdfMetadata{name:String,path:String,page_count:usize,file_size:u64}
-#[tauri::command] fn app_status()->String{"WRE Revu Assistant B02 ready".into()}
+#[tauri::command] fn app_status()->String{"WRE Revu Assistant B02.1 ready".into()}
 #[tauri::command] fn inspect_pdf(path:String)->Result<PdfMetadata,String>{let meta=std::fs::metadata(&path).map_err(|e|e.to_string())?;let doc=lopdf::Document::load(&path).map_err(|e|e.to_string())?;let name=std::path::Path::new(&path).file_name().and_then(|x|x.to_str()).unwrap_or("Drawing Set.pdf").to_string();Ok(PdfMetadata{name,path,page_count:doc.get_pages().len(),file_size:meta.len()})}
-#[cfg_attr(mobile,tauri::mobile_entry_point)] pub fn run(){tauri::Builder::default().invoke_handler(tauri::generate_handler![app_status,inspect_pdf]).run(tauri::generate_context!()).expect("error while running WRE Revu Assistant");}
+#[cfg_attr(mobile,tauri::mobile_entry_point)] pub fn run(){tauri::Builder::default().plugin(tauri_plugin_dialog::init()).plugin(tauri_plugin_fs::init()).invoke_handler(tauri::generate_handler![app_status,inspect_pdf]).run(tauri::generate_context!()).expect("error while running WRE Revu Assistant");}
